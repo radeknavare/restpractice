@@ -15,7 +15,7 @@ public class RestAPICall {
 	public void Connect_API() {
 		// TODO Auto-generated method stub
 		RestAssured.baseURI = "https://maps.googleapis.com";
-		
+		 
 		given().
 				queryParam("key","AIzaSyCamUynSbAa79OOqdFObMp9b3I5q7D5cfw").
 				queryParam("location","-33.8670522,151.1957362").
