@@ -26,12 +26,13 @@ public class AddBook {
 		p = new Properties();
 		p.load(new FileInputStream("C:\\Users\\navarked\\Documents\\restpractice\\src\\test\\java\\resources\\configuration.properties"));
 		RestAssured.baseURI= p.getProperty("ADDBOOK");
+		RestAssured.useRelaxedHTTPSValidation();
 	}
 
 	@Test
 	public void bookAdd()
 	{
-		Response r = given().body("{\r\n" + 
+		Response r = given().relaxedHTTPSValidation().body("{\r\n" + 
 				"\r\n" + 
 				"\"name\":\"KRestPractice\",\r\n" + 
 				"\"isbn\":\"k123\",\r\n" + 
