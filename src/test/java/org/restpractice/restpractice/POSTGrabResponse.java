@@ -5,31 +5,52 @@ import io.restassured.http.ContentType;
 import io.restassured.matcher.ResponseAwareMatcher;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
+import resources.PostPayload;
+import resources.ReusableMethods;
 
 import static io.restassured.RestAssured.*;
+
+import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
+
 import static org.hamcrest.Matchers.equalTo;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
+
 public class POSTGrabResponse {
+	
+	Properties p;
+	@BeforeTest
+	public void initialize() throws FileNotFoundException, IOException
+	{
+		p = new Properties();
+		p.load(new FileInputStream("C:\\Users\\navarked\\Documents\\restpractice\\src\\test\\java\\resources\\configuration.properties"));
+	}
 
 	@Test 
-	public void POSTtest() {
+	public void POSTtest() throws FileNotFoundException{
 		// TODO Auto-generated method stub
-		RestAssured.baseURI = "https://jsonplaceholder.typicode.com";
-		Response res = given().body("{"+
-			      "\"title\": \"foo\","+
-			      "\"body\": \"bar\","+
-			      "\"userId\": 200,"+
-			      "\"id\": 2000,"+
-			    "}").
-when().post("/posts").then().assertThat().statusCode(201).and().contentType(ContentType.JSON).assertThat().body("id",equalTo(101)).extract().response();
 		
-		String response = res.asString();
+		RestAssured.baseURI = p.getProperty("JSONHOLDER");
+		Response res = given().body(PostPayload.postPayloadMethod()).log().all().
+when().post("/posts").then().log().all().assertThat().statusCode(201).and().contentType(ContentType.JSON).assertThat().body("id",equalTo(101)).extract().response();
 		
-		System.out.println(response);
-		JsonPath jp = new JsonPath(response);
+		ReusableMethods rm = new ReusableMethods();
+		JsonPath jp = rm.rawDataToJson(res);
+		
+		//Assert.assertEquals(jp.get("id"), "100");
+		
+		SoftAssert sa = new SoftAssert();
+		
+		sa.assertEquals(jp.get("id"), "1000","Soft Assertion Failed");
+		sa.assertTrue(false);
+		//Assert.assertEquals(jp.get("id"), "100");
 		System.out.println(jp.get("id"));
-		
-		
+		sa.assertAll();
 	}
 }

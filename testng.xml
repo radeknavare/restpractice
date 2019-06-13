@@ -3,8 +3,16 @@
 <suite name="Suite">
   <test thread-count="5" name="Test">
     <classes>
-      <class name="org.restpractice.restpractice.RestAPICall"/>
-      <class name="org.restpractice.restpractice.SamplePost"/>
+      <class name="org.restpractice.restpractice.RestAPICall">
+      	<methods>
+      		<exclude name="Connect_API"></exclude>
+      	</methods>
+      </class>
+      <class name="org.restpractice.restpractice.POSTGrabResponse">
+      	<methods>
+      		<include name="POSTtest"></include>
+      	</methods>
+      </class>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->
