@@ -37,7 +37,7 @@ public class POSTGrabResponse {
 		// TODO Auto-generated method stub
 		
 		RestAssured.baseURI = p.getProperty("JSONHOLDER");
-		Response res = given().body(PostPayload.postPayloadMethod()).log().all().
+		Response res = given().body(PostPayload.postPayloadMethod(300)).log().all().
 when().post("/posts").then().log().all().assertThat().statusCode(201).and().contentType(ContentType.JSON).assertThat().body("id",equalTo(101)).extract().response();
 		
 		ReusableMethods rm = new ReusableMethods();
@@ -47,10 +47,10 @@ when().post("/posts").then().log().all().assertThat().statusCode(201).and().cont
 		
 		SoftAssert sa = new SoftAssert();
 		
-		sa.assertEquals(jp.get("id"), "1000","Soft Assertion Failed");
-		sa.assertTrue(false);
+		sa.assertEquals(jp.get("id"), 101,"Soft Assertion Failed");
 		//Assert.assertEquals(jp.get("id"), "100");
 		System.out.println(jp.get("id"));
 		sa.assertAll();
+
 	}
 }

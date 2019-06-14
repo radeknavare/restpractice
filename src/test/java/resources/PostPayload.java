@@ -2,11 +2,11 @@ package resources;
 
 public class PostPayload {
 
-	public static String postPayloadMethod()
+	public static String postPayloadMethod(int userId)
 	{
 		String payload = "{"+"\"title\": \"foo\","+
 			      "\"body\": \"bar\","+
-			      "\"userId\": 200,"+
+			      "\"userId\": "+userId+","+
 			      "\"id\": 2000,"+
 			    "}";
 		
